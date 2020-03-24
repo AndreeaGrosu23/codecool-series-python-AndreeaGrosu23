@@ -49,24 +49,48 @@
             <h2>Welcome TV show lovers!</h2>
             <p>This great site is happy to bring you your favourite TV show's <i>details</i>.</p>
             <p></p>
-            <p>Okay, actually this is a designed dumb page without any logic.</p>
-            <p>You can find a navigational element, the so called "breadcrumb" above the page's title. Use it for
-                in-depth
-                navigation.
-            </p>
+{#            <p>Okay, actually this is a designed dumb page without any logic.</p>#}
+{#            <p>You can find a navigational element, the so called "breadcrumb" above the page's title. Use it for#}
+{#                in-depth#}
+{#                navigation.#}
+{#            </p>#}
         </div>
         <div class="card">
-            <ul>
+            <table>
+                <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Release year</th>
+                    <th>Average runtime length</th>
+                    <th>Genres</th>
+                    <th>Rating</th>
+                    <th>Trailer</th>
+                    <th>Homepage</th>
+                </tr>
+                </thead>
+                <tbody>
+
                 {% for show in shows %}
-                    <li>
-                        <a href="{{ '/tv-show/' + (show['id'] | string) }}">{{ show['title'] }}</a>
-                    </li>
+
+                <tr>
+                    <td><a href="{{ '/tv-show/' + (show['id'] | string) }}">{{ show['title'] }}</a></td>
+                    <td>{{ show['year'] }}</td>
+                    <td>{{ show['runtime'] }}</td>
+                    <td>{{ show['genre'] }}</td>
+                    <td>{{ show['rating'] }}</td>
+                    <td>{{ show['trailer'] }}</td>
+                    <td>{{ show['homepage'] }}</td>
+                </tr>
+
                 {% endfor %}
-            </ul>
+
+                </tbody>
+            </table>
+
         </div>
     </section>
     <footer>
-        Copyright, bla-bla
+        Copyright AndreeaG2020
     </footer>
 </div>
 <div class="background">
