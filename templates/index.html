@@ -29,11 +29,21 @@
             <table>
                 <thead>
                 <tr>
-                    <th>Title</th>
-                    <th>Release year</th>
-                    <th>Average runtime length</th>
-                    <th>Genres</th>
-                    <th>Rating</th>
+                    <th>Title
+                        <a href="{{ url_for('index', header='title', order='desc') }}"><button class="sort_button">v</button></a>
+                        <a href="{{ url_for('index', header='title', order='asc') }}"><button class="sort_button">^</button></a></th>
+                    <th>Release year
+                        <a href="{{ url_for('index', header='year', order='desc') }}"><button class="sort_button">v</button></a>
+                        <a href="{{ url_for('index', header='year', order='asc') }}"><button class="sort_button">^</button></a></th>
+                    <th>Average runtime length
+                        <a href="{{ url_for('index', header='runtime', order='desc') }}"><button class="sort_button">v</button></a>
+                        <a href="{{ url_for('index', header='runtime', order='asc') }}"><button class="sort_button">^</button></a></th>
+                    <th>Genres
+                        <a href="{{ url_for('index', header='genre', order='desc') }}"><button class="sort_button">v</button></a>
+                        <a href="{{ url_for('index', header='genre', order='asc') }}"><button class="sort_button">^</button></a></th>
+                    <th>Rating
+                        <a href="{{ url_for('index', header='rating', order='desc') }}"><button class="sort_button">v</button></a>
+                        <a href="{{ url_for('index', header='rating', order='asc') }}"><button class="sort_button">^</button></a></th>
                     <th>Trailer</th>
                     <th>Homepage</th>
                 </tr>
