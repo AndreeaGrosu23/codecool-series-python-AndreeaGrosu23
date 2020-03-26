@@ -128,3 +128,13 @@ def get_show_by_id(show_id):
         "WHERE show_id = %(show_id)s;",
         {'show_id': show_id}
     )
+
+
+def get_actors():
+    return data_manager.execute_select("SELECT a.name, string_agg(DISTINCT s.title, '#') AS titles, COUNT(*) as show_numbers "
+                                        "FROM actors a "
+                                        "JOIN show_characters sc on a.id = sc.actor_id "
+                                        "JOIN shows s on sc.show_id = s.id "
+                                        "GROUP BY a.name "
+                                        "ORDER BY show_numbers DESC "
+                                        "LIMIT 20;")

@@ -56,6 +56,12 @@ def show_details(show_id):
     return render_template('show_details.html', show=show)
 
 
+@app.route('/top-20-actors')
+def top_20():
+    actors = queries.get_actors()
+    return render_template('top20actors.html', actors=actors)
+
+
 @app.route('/design')
 def design():
     return render_template('design.html')

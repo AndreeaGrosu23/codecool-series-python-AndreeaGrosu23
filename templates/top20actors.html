@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -43,33 +42,49 @@
 
 </head>
 
-<body>
+{% block content %}
 
-<header class="clearfix">
-    <img id="header-logo" src="{{ url_for('static', filename='assets/codecool-logo.png') }}" alt="Codecool Logo">
-    <span id="header-title" class="title">
-                    Codecool Series DB
-    </span>
-    <div id="header-auth">
-        <button type="button" id="bt_register">Register</button>
-        <button type="button" id="bt_login">Login</button>
-    </div>
-</header>
+<div id="body-wrapper">
+    <header class="clearfix">
+        <img id="header-logo" src="{{ url_for('static', filename='assets/codecool-logo.png') }}" alt="Codecool Logo">
+        <span id="header-title" class="title">
+                        Codecool Series DB
+                    </span>
+        <div id="header-auth">
+            <button type="button" id="bt_register">Register</button>
+            <button type="button" id="bt_login">Login</button>
+        </div>
+    </header>
 
-    <div id="content">{% block content %}{% endblock %}</div>
-        <footer>
-            Copyright AndreeaG2020
-        </footer>
-    </div>
+    {% for actor in actors %}
 
-    <div class="background">
-        <div class="dark-blue-layer"></div>
-        <div class="light-blue-layer"></div>
-    </div>
+    <ul>
+        <li>
+            <p>{{ actor['name'] }}</p>
 
-{#    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"#}
-{#    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"#}
-{#    crossorigin="anonymous"></script>#}
+            <ol class="hide">
 
-    </body>
-</html>
+                    {% for show in actor['titles'].split('#') %}
+                    <li>{{  show  }}</li>
+                    {% endfor %}
+
+            </ol>
+
+    </ul>
+
+   {% endfor %}
+
+<button type="button" id="bt_return"><a href="{{ url_for('index') }}">Go home</button>
+
+</div>
+
+<script>
+    document.querySelectorAll('p').forEach(p => p.addEventListener('click', e => {
+        e.preventDefault();
+        e.target.nextElementSibling.classList.toggle('hide')
+    }))
+</script>
+
+{#     <script src="./static/JS/main.js" defer></script>#}
+
+{% endblock %}
