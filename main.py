@@ -49,6 +49,13 @@ def get_shows_per_page(page_id):
         return render_template('index.html', shows=shows, page_id=int(page_id))
 
 
+@app.route('/tv-show')
+@app.route('/tv-show/<show_id>')
+def show_details(show_id):
+    show = queries.get_show_by_id(show_id)
+    return render_template('show_details.html', show=show)
+
+
 @app.route('/design')
 def design():
     return render_template('design.html')

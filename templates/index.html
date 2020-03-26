@@ -53,7 +53,7 @@
                 {% for show in shows %}
 
                 <tr>
-                    <td><a href="{{ '/tv-show/' + (show['id'] | string) }}">{{ show['title'] }}</a></td>
+                    <td><a href="{{ url_for('show_details', show_id=show['id']) }}">{{ show['title'] }}</a></td>
                     <td>{{ show['year'] }}</td>
                     <td>{{ show['runtime'] }}</td>
                     <td>{{ show['genre'] }}</td>

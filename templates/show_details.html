@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div id="body-wrapper">
+    <header class="clearfix">
+        <img id="header-logo" src="{{ url_for('static', filename='assets/codecool-logo.png') }}" alt="Codecool Logo">
+        <span id="header-title" class="title">
+                        Codecool Series DB
+                    </span>
+        <div id="header-auth">
+            <button type="button" id="bt_register">Register</button>
+            <button type="button" id="bt_login">Login</button>
+        </div>
+    </header>
+
+
+{#    <div class="card detailed-view">#}
+{#            <p>And here is a "detailed" kind of view:</p>#}
+{#        <div class="row">#}
+{#                <img src="http://www.impawards.com/2016/posters/deadpool_ver5.jpg" alt="Deadpool poster"#}
+{#                     class="poster col col-third">#}
+{#            <div class="col col-twothird">#}
+
+
+
+        <h2>{{ show[0]['title'] }}</h2>
+        <p class="small grayed">{{ show[0]['runtime'] }} <span class="separator">|</span> {{ show[0]['genre'] }} <span
+                class="separator">|</span> {{ show[0]['year'] }}</p>
+        <p>{{ show[0]['overview'] }}</p>
+
+        <div>
+            <p><b>Rating:</b>{{ show[0]['rating'] }}</p>
+            <p><b>Stars:</b><a href="#">Bla</a>, <a href="#">Bla</a>, <a href="#">Bla</a></p>
+        </div>
+
+<button type="button" id="bt_return"><a href="{{ url_for('index') }}">Go home</button>
+
+</div>
+
+{% endblock %}
