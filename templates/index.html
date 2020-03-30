@@ -2,88 +2,90 @@
 
 {% block content %}
 
-<div id="body-wrapper">
-    <header class="clearfix">
-        <img id="header-logo" src="{{ url_for('static', filename='assets/codecool-logo.png') }}" alt="Codecool Logo">
-        <span id="header-title" class="title">
-                        Codecool Series DB
-                    </span>
-        <div id="header-auth">
-            <button type="button" id="bt_register">Register</button>
-            <button type="button" id="bt_login">Login</button>
-        </div>
-    </header>
-    <section>
-        <h1 class="title text-center">Welcome page</h1>
-        <div class="card">
-            <h2>Welcome TV show lovers!</h2>
-            <p>This great site is happy to bring you your favourite TV show's <i>details</i>.</p>
-            <p></p>
+    <div id="body-wrapper">
+
+        <header class="clearfix">
+            <img id="header-logo" src="{{ url_for('static', filename='assets/codecool-logo.png') }}" alt="Codecool Logo">
+            <span id="header-title" class="title">
+                            Codecool Series DB
+                        </span>
+            <div id="header-auth">
+                <button type="button" id="bt_register">Register</button>
+                <button type="button" id="bt_login">Login</button>
+            </div>
+        </header>
+
+        <section>
+            <h1 class="title text-center">Welcome page</h1>
+            <div class="card">
+                <h2>Welcome TV show lovers!</h2>
+                <p>This great site is happy to bring you your favourite TV show's <i>details</i>.</p>
+                <p></p>
 {#            <p>Okay, actually this is a designed dumb page without any logic.</p>#}
 {#            <p>You can find a navigational element, the so called "breadcrumb" above the page's title. Use it for#}
 {#                in-depth#}
 {#                navigation.#}
 {#            </p>#}
-        </div>
-        <div class="card">
-            <table>
-                <thead>
-                <tr>
-                    <th>Title
-                        <a href="{{ url_for('index', header='title', order='desc') }}"><button class="sort_button">v</button></a>
-                        <a href="{{ url_for('index', header='title', order='asc') }}"><button class="sort_button">^</button></a></th>
-                    <th>Release year
-                        <a href="{{ url_for('index', header='year', order='desc') }}"><button class="sort_button">v</button></a>
-                        <a href="{{ url_for('index', header='year', order='asc') }}"><button class="sort_button">^</button></a></th>
-                    <th>Average runtime length
-                        <a href="{{ url_for('index', header='runtime', order='desc') }}"><button class="sort_button">v</button></a>
-                        <a href="{{ url_for('index', header='runtime', order='asc') }}"><button class="sort_button">^</button></a></th>
-                    <th>Genres
-                        <a href="{{ url_for('index', header='genre', order='desc') }}"><button class="sort_button">v</button></a>
-                        <a href="{{ url_for('index', header='genre', order='asc') }}"><button class="sort_button">^</button></a></th>
-                    <th>Rating
-                        <a href="{{ url_for('index', header='rating', order='desc') }}"><button class="sort_button">v</button></a>
-                        <a href="{{ url_for('index', header='rating', order='asc') }}"><button class="sort_button">^</button></a></th>
-                    <th>Trailer</th>
-                    <th>Homepage</th>
-                </tr>
-                </thead>
-                <tbody>
+            </div>
+            <div class="card">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Title
+                            <a href="{{ url_for('index', header='title', order='desc') }}"><button class="sort_button">v</button></a>
+                            <a href="{{ url_for('index', header='title', order='asc') }}"><button class="sort_button">^</button></a></th>
+                        <th>Release year
+                            <a href="{{ url_for('index', header='year', order='desc') }}"><button class="sort_button">v</button></a>
+                            <a href="{{ url_for('index', header='year', order='asc') }}"><button class="sort_button">^</button></a></th>
+                        <th>Average runtime length
+                            <a href="{{ url_for('index', header='runtime', order='desc') }}"><button class="sort_button">v</button></a>
+                            <a href="{{ url_for('index', header='runtime', order='asc') }}"><button class="sort_button">^</button></a></th>
+                        <th>Genres
+                            <a href="{{ url_for('index', header='genre', order='desc') }}"><button class="sort_button">v</button></a>
+                            <a href="{{ url_for('index', header='genre', order='asc') }}"><button class="sort_button">^</button></a></th>
+                        <th>Rating
+                            <a href="{{ url_for('index', header='rating', order='desc') }}"><button class="sort_button">v</button></a>
+                            <a href="{{ url_for('index', header='rating', order='asc') }}"><button class="sort_button">^</button></a></th>
+                        <th>Trailer</th>
+                        <th>Homepage</th>
+                    </tr>
+                    </thead>
+                    <tbody>
 
-                {% for show in shows %}
+                    {% for show in shows %}
 
-                <tr>
-                    <td><a href="{{ url_for('show_details', show_id=show['id']) }}">{{ show['title'] }}</a></td>
-                    <td>{{ show['year'] }}</td>
-                    <td>{{ show['runtime'] }}</td>
-                    <td>{{ show['genre'] }}</td>
-                    <td>{{ show['rating'] }}</td>
-                    <td>{{ show['trailer'] }}</td>
-                    <td>{{ show['homepage'] }}</td>
-                </tr>
+                    <tr>
+                        <td><a href="{{ url_for('show_details', show_id=show['id']) }}">{{ show['title'] }}</a></td>
+                        <td>{{ show['year'] }}</td>
+                        <td>{{ show['runtime'] }}</td>
+                        <td>{{ show['genre'] }}</td>
+                        <td>{{ show['rating'] }}</td>
+                        <td>{{ show['trailer'] }}</td>
+                        <td>{{ show['homepage'] }}</td>
+                    </tr>
 
-                {% endfor %}
+                    {% endfor %}
 
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
 
-        </div>
+            </div>
 
-        <button>
-            <a href="{{ url_for('get_shows_per_page', page_id=page_id-1) }}">Previous</a>
-        </button>
-        <button>
-            <a href="{{ url_for('get_shows_per_page', page_id=page_id+1) }}">Next</a>
-        </button>
-        <br>
-        <br>
-        <button>
-            <a href="{{ url_for('top_20') }}">Top 20 actors</a>
-        </button>
+            <button>
+                <a href="{{ url_for('get_shows_per_page', page_id=page_id-1) }}">Previous</a>
+            </button>
+            <button>
+                <a href="{{ url_for('get_shows_per_page', page_id=page_id+1) }}">Next</a>
+            </button>
+            <br>
+            <br>
+            <button>
+                <a href="{{ url_for('top_20') }}">Top 20 actors</a>
+            </button>
 
 
-{#        <div class="list" id="list"></div>#}
-{#        <div class="pagenumbers" id="pagination"></div>#}
-    </section>
+        {#        <div class="list" id="list"></div>#}
+        {#        <div class="pagenumbers" id="pagination"></div>#}
+        </section>
 
 {% endblock %}

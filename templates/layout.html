@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style/form.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='style/grid.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='style/utils.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/main.css') }}">
 
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
@@ -33,28 +34,22 @@
     <!-- page specific styling -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style/detailed-view.css') }}">
 
-    <script src="./static/JS/main.js" defer></script>
 
-    <style>
-        .hide {
-            display: none
-        }
-    </style>
 
 </head>
 
 <body>
 
-<header class="clearfix">
-    <img id="header-logo" src="{{ url_for('static', filename='assets/codecool-logo.png') }}" alt="Codecool Logo">
-    <span id="header-title" class="title">
-                    Codecool Series DB
-    </span>
-    <div id="header-auth">
-        <button type="button" id="bt_register">Register</button>
-        <button type="button" id="bt_login">Login</button>
-    </div>
-</header>
+    <header class="clearfix">
+        <img id="header-logo" src="{{ url_for('static', filename='assets/codecool-logo.png') }}" alt="Codecool Logo">
+        <span id="header-title" class="title">
+                        Codecool Series DB
+        </span>
+        <div id="header-auth">
+            <button type="button" id="bt_register">Register</button>
+            <button type="button" id="bt_login">Login</button>
+        </div>
+    </header>
 
     <div id="content">{% block content %}{% endblock %}</div>
         <footer>
@@ -70,6 +65,8 @@
 {#    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"#}
 {#    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"#}
 {#    crossorigin="anonymous"></script>#}
+
+        <script src="./static/JS/main.js" defer></script>
 
     </body>
 </html>
