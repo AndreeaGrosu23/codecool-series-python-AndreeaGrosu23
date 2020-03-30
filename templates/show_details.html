@@ -1,5 +1,11 @@
 {% extends "layout.html" %}
 
+<style>
+    .hide {
+        display: none;
+    }
+</style>
+
 {% block content %}
 
 <div id="body-wrapper">
@@ -15,27 +21,62 @@
     </header>
 
 
-{#    <div class="card detailed-view">#}
+    <div class="card detailed-view">
 {#            <p>And here is a "detailed" kind of view:</p>#}
-{#        <div class="row">#}
-{#                <img src="http://www.impawards.com/2016/posters/deadpool_ver5.jpg" alt="Deadpool poster"#}
-{#                     class="poster col col-third">#}
-{#            <div class="col col-twothird">#}
+        <div class="row">
+            <div class="col col-third">
+            {% if show[0]['video'] %}
+                <object data="{{ show[0]['video'] }}" width="560" height="315"></object>
+            {% else %}
+                <h3>No video available</h3>
+            {% endif %}
+            </div>
+            <div class="col col-third">
+                <h2>{{ show[0]['title'] }}</h2>
+                <p class="small grayed">{{ show[0]['runtime'] }} <span class="separator">|</span> {{ show[0]['genre'] }} <span
+                        class="separator">|</span> {{ show[0]['year'] }}</p>
+                <p>{{ show[0]['overview'] }}</p>
+
+                <div>
+                    <p><b>Rating: </b>{{ show[0]['rating'] }}</p>
+                    <p><b>Stars: </b> {{ show[0]['actors'] }}</p>
+                </div>
+
+            </div>
+
+            <div class="col col-third"><h2>Seasons</h2>
+                <ul>
+                    {% for season in seasons %}
+                    <li>
+                        <h4>{{ season.title }}</h4>
+
+                        <div class="hide">
+                            <p>{{ season.overview }}</p>
+                        </div>
+
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
 
 
-
-        <h2>{{ show[0]['title'] }}</h2>
-        <p class="small grayed">{{ show[0]['runtime'] }} <span class="separator">|</span> {{ show[0]['genre'] }} <span
-                class="separator">|</span> {{ show[0]['year'] }}</p>
-        <p>{{ show[0]['overview'] }}</p>
-
-        <div>
-            <p><b>Rating:</b>{{ show[0]['rating'] }}</p>
-            <p><b>Stars:</b><a href="#">Bla</a>, <a href="#">Bla</a>, <a href="#">Bla</a></p>
         </div>
+    </div>
 
-<button type="button" id="bt_return"><a href="{{ url_for('index') }}">Go home</button>
+    <button type="button" id="bt_return"><a href="{{ url_for('index') }}">Go home</button>
+    <br>
+    <br>
 
-</div>
+    <script>
+        let seasons = document.querySelectorAll('h4');
+        for (season of seasons)  {
+            season.addEventListener('click', showOverview);
+        }
 
+        function showOverview(e) {
+            e.preventDefault();
+            e.target.nextElementSibling.classList.toggle('hide');
+        }
+
+    </script>
 {% endblock %}

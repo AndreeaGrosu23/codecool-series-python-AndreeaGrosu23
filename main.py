@@ -53,7 +53,8 @@ def get_shows_per_page(page_id):
 @app.route('/tv-show/<show_id>')
 def show_details(show_id):
     show = queries.get_show_by_id(show_id)
-    return render_template('show_details.html', show=show)
+    seasons = queries.get_seasons_by_show_id(show_id)
+    return render_template('show_details.html', show=show, seasons=seasons)
 
 
 @app.route('/top-20-actors')
