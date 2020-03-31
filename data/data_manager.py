@@ -105,8 +105,8 @@ def execute_dml_statement(statement, variables=None):
     return result
 
 
-def execute_st(statement, variables=None):
+def execute_manipulation(statement, variables=None):
     with establish_connection() as conn:
         with conn.cursor() as cursor:
-            x = cursor.execute(statement, variables)
-    return x
+            manipulation = cursor.execute(statement, variables)
+    return manipulation
