@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS genres;
 DROP TABLE IF EXISTS actors;
 DROP TABLE IF EXISTS seasons;
 DROP TABLE IF EXISTS shows;
+DROP TABLE IF EXISTS users;
 
 
 CREATE TABLE shows (
@@ -67,6 +68,15 @@ CREATE TABLE episodes (
 );
 
 
+CREATE TABLE users (
+    id INTEGER PRIMARY KEY NOT NULL,
+    username TEXT,
+    user_email TEXT,
+    hashed_password TEXT,
+    show_id INTEGER
+);
+
+
 ALTER TABLE ONLY seasons
     ADD CONSTRAINT fk_seasons_show_id FOREIGN KEY (show_id) REFERENCES shows(id);
 
@@ -88,3 +98,6 @@ ALTER TABLE ONLY show_genres
 
 ALTER TABLE ONLY show_genres
     ADD CONSTRAINT fk_show_genres_show_id FOREIGN KEY (show_id) REFERENCES shows(id);
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT fk_users_show_id FOREIGN KEY (show_id) REFERENCES shows(id);

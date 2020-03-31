@@ -19,6 +19,7 @@ def get_shows(data):
                                     {'page_id': data['page_id'],
                                      'limit': data['limit']})
 
+
 def sorted_by_title_ASC(data):
     return data_manager.execute_select("""SELECT shows.id, title, year, runtime, genre, ROUND(rating, 2) AS rating, trailer, homepage 
                                         FROM shows 
@@ -56,6 +57,7 @@ def sorted_by_title_DESC(data):
                                         {'page_id': data['page_id'],
                                          'limit': data['limit']})
 
+
 def sorted_by_rating_ASC(data):
     return data_manager.execute_select("""SELECT shows.id, title, year, runtime, genre, ROUND(rating, 2) AS rating, trailer, homepage 
                                         FROM shows 
@@ -73,6 +75,7 @@ def sorted_by_rating_ASC(data):
                                         LIMIT %(limit)s;""",
                                         {'page_id': data['page_id'],
                                          'limit': data['limit']})
+
 
 def sorted_by_rating_DESC(data):
     return data_manager.execute_select("""SELECT shows.id, title, year, runtime, genre, ROUND(rating, 2) AS rating, trailer, homepage 
@@ -121,6 +124,7 @@ def get_seasons_by_show_id(show_id):
                                        HAVING seasons.show_id = %(show_id)s;""",
                                        {'show_id' : show_id})
 
+
 def get_actors():
     return data_manager.execute_select("""SELECT a.name, string_agg(DISTINCT s.title, '#') AS titles, COUNT(*) as show_numbers 
                                         FROM actors a 
@@ -137,9 +141,12 @@ def add_fav_to_users(data):
                                            {'username': data['username'],
                                            'show_id': data['show_id']})
 
+
 def select_fav(username):
     return data_manager.execute_select("""SELECT DISTINCT shows.title FROM users 
                                        JOIN shows 
                                        ON shows.id = users.show_id 
                                        WHERE users.username = %(username)s;""",
                                        {'username': username})
+
+
