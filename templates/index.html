@@ -11,9 +11,34 @@
                         </span>
             <div id="header-auth">
                 <button type="button" id="bt_register">Register</button>
+
                 <button type="button" id="bt_login">Login</button>
             </div>
         </header>
+
+    <div id="my-modal" class="modal">
+        <div id="modal-content">
+            <div class="modal-body">
+                <span id="close">&times;</span>
+                <h2 class="modal-header">Register</h2>
+                <form method="post">
+                    <input type="text" id="email-address" name="email-address" value="email address">
+                    <br>
+                    <br>
+                    <input type="text" id="username" name="username" value="username">
+                    <br>
+                    <br>
+                    <input type="text" id="password" name="password" value="password">
+                    <br>
+                    <br>
+                    <input type="text" id="password2" name="password2" value="confirm password">
+                    <br>
+                    <br>
+                    <button type="submit" id="submit" name="register" value="Register">Register</button>
+                </form>
+            </div>
+        </div>
+    </div>
 
         <section>
             <h1 class="title text-center">Welcome page</h1>
@@ -87,5 +112,27 @@
         {#        <div class="list" id="list"></div>#}
         {#        <div class="pagenumbers" id="pagination"></div>#}
         </section>
+
+    <script>
+        let registerBtn = document.querySelector('#bt_register');
+        console.log(registerBtn)
+        let closeBtn = document.querySelector('#close');
+        console.log(closeBtn)
+        let modal = document.querySelector('#my-modal');
+        console.log(modal)
+
+        registerBtn.addEventListener('click', openModal)
+
+        function openModal() {
+            modal.style.display = 'block';
+        };
+
+        closeBtn.addEventListener('click', closeModal);
+
+        function closeModal() {
+            modal.style.display = 'none';
+        };
+
+    </script>
 
 {% endblock %}

@@ -134,8 +134,12 @@ def get_show_by_id(show_id):
 
 
 def get_seasons_by_show_id(show_id):
-    return data_manager.execute_select("SELECT * FROM seasons "
-                                       "WHERE show_id = %(show_id)s",
+    return data_manager.execute_select("SELECT seasons.title, seasons.overview, string_agg(DISTINCT episodes.title, '@@') as episodes, string_agg(DISTINCT episodes.overview, '@@') as ep_overview"
+                                       " FROM seasons "
+                                       "JOIN episodes "
+                                       "ON seasons.id = episodes.season_id "
+                                       "GROUP BY seasons.title, seasons.overview, seasons.show_id "
+                                       "HAVING seasons.show_id = %(show_id)s;",
                                        {'show_id' : show_id})
 
 def get_actors():

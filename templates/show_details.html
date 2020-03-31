@@ -1,10 +1,10 @@
 {% extends "layout.html" %}
 
-<style>
-    .hide {
-        display: none;
-    }
-</style>
+{#<style>#}
+{#    .hide {#}
+{#        display: none;#}
+{#    }#}
+{#</style>#}
 
 {% block content %}
 
@@ -45,6 +45,7 @@
             </div>
 
             <div class="col col-third"><h2>Seasons</h2>
+            <br>
                 <ul>
                     {% for season in seasons %}
                     <li>
@@ -52,6 +53,11 @@
 
                         <div class="hide">
                             <p>{{ season.overview }}</p>
+                            <ol>
+                                {% for episode in season.episodes.split('@@') %}
+                                    <li><p><em>{{ episode }}</em></p></li>
+                                {% endfor %}
+                            </ol>
                         </div>
 
                     </li>
@@ -79,4 +85,5 @@
         }
 
     </script>
+
 {% endblock %}

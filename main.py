@@ -1,8 +1,11 @@
-from flask import Flask, render_template, url_for, request
+from flask import Flask, render_template, request, redirect, url_for, session, escape
 from data import queries
+
+import os
 
 app = Flask('codecool_series')
 
+app.secret_key = os.urandom(8)
 
 @app.route('/')
 def index():
@@ -66,6 +69,28 @@ def top_20():
 @app.route('/design')
 def design():
     return render_template('design.html')
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == "POST":
+        session['username'] = request.form['username']
+        username = escape(session['username'])
+        return redirect(url_for('index'), username = username)
+#     to write function for checking in the username exists and password is correct
+
+
+# @app.route('/register', methods=['GET', 'POST'])
+# def register():
+#     to write function to write in database
+#     to generate db table with users
+#     to write hash password
+
+
+@app.route('/logout')
+def logout():
+    session.pop('username', None)
+    return redirect(url_for('index'))
 
 
 def main():
