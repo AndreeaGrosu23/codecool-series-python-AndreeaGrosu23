@@ -15,17 +15,31 @@ def index():
         'page_id': 1
     }
     shows = queries.get_shows(data)
-    header = request.args.get(key = 'header')
-    order = request.args.get(key = 'order')
-    if header == "title" and order == "asc" :
-        shows = queries.sorted_by_title_ASC(data)
-    elif header == "title" and order == "desc" :
-        shows = queries.sorted_by_title_DESC(data)
-    elif header == "rating" and order == "asc" :
-        shows = queries.sorted_by_rating_ASC(data)
-    elif header == "rating" and order == "desc" :
-        shows = queries.sorted_by_rating_DESC(data)
+    if session:
+        username = session['username']
+        faves = queries.select_fav(username)
+        shows = queries.get_shows(data)
+        header = request.args.get(key = 'header')
+        order = request.args.get(key = 'order')
+        if header == "title" and order == "asc" :
+            shows = queries.sorted_by_title_ASC(data)
+        elif header == "title" and order == "desc" :
+            shows = queries.sorted_by_title_DESC(data)
+        elif header == "rating" and order == "asc" :
+            shows = queries.sorted_by_rating_ASC(data)
+        elif header == "rating" and order == "desc" :
+            shows = queries.sorted_by_rating_DESC(data)
+        return render_template('index.html', shows=shows, page_id=page_id, username=username, faves=faves)
+
     return render_template('index.html', shows=shows, page_id=page_id)
+
+    # if session:
+    #     shows = queries.sorted_by_rating_DESC(data)
+    #     username = session['username']
+    #     faves = queries.select_fav(username)
+    #     return render_template('index.html', shows=shows, page_id=page_id, username=username, faves=faves)
+
+
 
 
 @app.route('/get-shows')
@@ -75,9 +89,20 @@ def design():
 def login():
     if request.method == "POST":
         session['username'] = request.form['username']
-        username = escape(session['username'])
-        return redirect(url_for('index'), username = username)
+        return redirect(url_for('index'))
 #     to write function for checking in the username exists and password is correct
+
+
+@app.route('/add-favorite')
+def add_fav():
+    data = {
+        'show_id': request.args.get(key='show_id'),
+        'username': request.args.get(key='username'),
+    }
+    queries.add_fav_to_users(data)
+    return redirect(url_for('index'))
+
+
 
 
 # @app.route('/register', methods=['GET', 'POST'])

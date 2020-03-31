@@ -1,28 +1,11 @@
 {% extends "layout.html" %}
-
-{#<style>#}
-{#    .hide {#}
-{#        display: none;#}
-{#    }#}
-{#</style>#}
-
+{% block head %}
+    {{ super() }}
+{% endblock %}
 {% block content %}
-
-<div id="body-wrapper">
-    <header class="clearfix">
-        <img id="header-logo" src="{{ url_for('static', filename='assets/codecool-logo.png') }}" alt="Codecool Logo">
-        <span id="header-title" class="title">
-                        Codecool Series DB
-                    </span>
-        <div id="header-auth">
-            <button type="button" id="bt_register">Register</button>
-            <button type="button" id="bt_login">Login</button>
-        </div>
-    </header>
-
+    {{ super() }}
 
     <div class="card detailed-view">
-{#            <p>And here is a "detailed" kind of view:</p>#}
         <div class="row">
             <div class="col col-third">
             {% if show[0]['video'] %}
@@ -64,26 +47,11 @@
                     {% endfor %}
                 </ul>
             </div>
-
-
         </div>
     </div>
 
     <button type="button" id="bt_return"><a href="{{ url_for('index') }}">Go home</button>
     <br>
     <br>
-
-    <script>
-        let seasons = document.querySelectorAll('h4');
-        for (season of seasons)  {
-            season.addEventListener('click', showOverview);
-        }
-
-        function showOverview(e) {
-            e.preventDefault();
-            e.target.nextElementSibling.classList.toggle('hide');
-        }
-
-    </script>
 
 {% endblock %}

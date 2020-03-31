@@ -1,25 +1,17 @@
 {% extends "layout.html" %}
-
+{% block head %}
+    {{ super() }}
+{% endblock %}
 {% block content %}
+    {{ super() }}
 
-<div id="body-wrapper">
-    <header class="clearfix">
-        <img id="header-logo" src="{{ url_for('static', filename='assets/codecool-logo.png') }}" alt="Codecool Logo">
-        <span id="header-title" class="title">
-                        Codecool Series DB
-                    </span>
-        <div id="header-auth">
-            <button type="button" id="bt_register">Register</button>
-            <button type="button" id="bt_login">Login</button>
-        </div>
-    </header>
 
     <div class="card detailed-view">
     {% for actor in actors %}
 
     <ul>
         <li>
-            <p>{{ actor['name'] }}</p>
+            <p class="actor">{{ actor['name'] }}</p>
 
             <ol class="hide">
 
@@ -37,13 +29,11 @@
 
 </div>
 
-<script>
-    document.querySelectorAll('p').forEach(p => p.addEventListener('click', e => {
-        e.preventDefault();
-        e.target.nextElementSibling.classList.toggle('hide');
-    }));
-</script>
-
-{#     <script src="./static/JS/main.js" defer></script>#}
+{#<script>#}
+{#    document.querySelectorAll('.actor').forEach(p => p.addEventListener('click', e => {#}
+{#        e.preventDefault();#}
+{#        e.target.nextElementSibling.classList.toggle('hide');#}
+{#    }));#}
+{#</script>#}
 
 {% endblock %}

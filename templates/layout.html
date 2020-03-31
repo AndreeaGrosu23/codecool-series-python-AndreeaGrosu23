@@ -33,40 +33,87 @@
 
     <!-- page specific styling -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style/detailed-view.css') }}">
+    <!-- JavaScript -->
+    <script href="{{ url_for('static', filename='JS/main.js') }}" defer></script>
 
-
-
+{% block head %}{% endblock %}
 </head>
 
 <body>
+<div id="content">
+    <div id="body-wrapper">
+        <header class="clearfix">
+            <img id="header-logo" src="{{ url_for('static', filename='assets/codecool-logo.png') }}" alt="Codecool Logo">
+            <span id="header-title" class="title">
+                            Codecool Series DB
+            </span>
+            <div id="header-auth">
+                <button type="button" id="bt_register">Register</button>
 
-{#    <header class="clearfix">#}
-{#        <img id="header-logo" src="{{ url_for('static', filename='assets/codecool-logo.png') }}" alt="Codecool Logo">#}
-{#        <span id="header-title" class="title">#}
-{#                        Codecool Series DB#}
-{#        </span>#}
-{#        <div id="header-auth">#}
-{#            <button type="button" id="bt_register">Register</button>#}
-{#            <button type="button" id="bt_login">Login</button>#}
-{#        </div>#}
-{#    </header>#}
+                <button type="button" id="bt_login">Login</button>
 
-    <div id="content">{% block content %}{% endblock %}</div>
+                <button type="button" id="bt_logout"><a id="logout" href={{ url_for('logout') }}>Logout</a></button>
+            </div>
+        </header>
+
+        <div id="my-modal" class="modal">
+            <div id="modal-content-register">
+                <div class="modal-body">
+                    <span id="close">&times;</span>
+                    <h2 class="modal-header">Register</h2>
+                    <form action=# method="POST">
+                        <input type="text" id="email-address" name="email-address" value="email address">
+                        <br>
+                        <br>
+                        <input type="text" id="username" name="username" value="username">
+                        <br>
+                        <br>
+                        <input type="text" id="password" name="password" value="password">
+                        <br>
+                        <br>
+                        <input type="text" id="password2" name="password2" value="confirm password">
+                        <br>
+                        <br>
+                        <button type="submit" id="submit" name="register" value="Register">Register</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="my-modal-login" class="modal">
+            <div id="modal-content-login">
+                <div class="modal-body">
+                    <span id="closeLogin">&times;</span>
+                    <h2 class="modal-header">Login</h2>
+                    <form action="/login" method="POST">
+                        <input type="text" id="username" name="username" value="username">
+                        <br>
+                        <br>
+                        <input type="text" id="password" name="password" value="password">
+
+                        <br>
+                        <br>
+                        <button type="submit" id="submit" name="register" value="Login">Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% block content %}{% endblock %}
         <footer>
             Copyright AndreeaG2020
         </footer>
+
     </div>
 
-    <div class="background">
-        <div class="dark-blue-layer"></div>
-        <div class="light-blue-layer"></div>
-    </div>
+<div class="background">
+    <div class="dark-blue-layer"></div>
+    <div class="light-blue-layer"></div>
+</div>
 
-{#    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"#}
-{#    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"#}
-{#    crossorigin="anonymous"></script>#}
+</div>
 
-{#    <script src="./static/JS/main.js" defer></script>#}
+<script type="module" src="{{ url_for('static', filename='JS/main.js') }}" defer></script>
 
-    </body>
+</body>
 </html>

@@ -103,3 +103,10 @@ def execute_dml_statement(statement, variables=None):
             except psycopg2.ProgrammingError as pe:
                 pass
     return result
+
+
+def execute_st(statement, variables=None):
+    with establish_connection() as conn:
+        with conn.cursor() as cursor:
+            x = cursor.execute(statement, variables)
+    return x

@@ -150,3 +150,17 @@ def get_actors():
                                         "GROUP BY a.name "
                                         "ORDER BY show_numbers DESC "
                                         "LIMIT 20;")
+
+
+def add_fav_to_users(data):
+    return data_manager.execute_st("INSERT INTO users "
+                                   "VALUES (%(username)s, %(show_id)s);",
+                                   {'username': data['username'],
+                                   'show_id': data['show_id']})
+
+def select_fav(username):
+    return data_manager.execute_select("SELECT shows.title FROM users "
+                                       "JOIN shows "
+                                       "ON shows.id = users.show_id "
+                                       "WHERE users.username = %(username)s;",
+                                       {'username': username})
