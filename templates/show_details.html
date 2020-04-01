@@ -4,52 +4,113 @@
 {% endblock %}
 {% block content %}
     {{ super() }}
+    <section>
+        <nav class="breadcrumb">
+            <a href="#">{{ show[0]['title'] }}</a>
+{#            <span class="separator">&gt;</span>#}
+{#            <a href="#">Season 1</a>#}
+{#            <span class="separator">&gt;</span>#}
+{#            <a href="#">Episode 1</a>#}
+        </nav>
+        <h1 class="title text-center">Welcome page</h1>
+        <div class="card">
+            <h2>Welcome TV show lovers!</h2>
+            <p>This great site is happy to bring you your favourite TV show's <i>details</i>.</p>
+            <p></p>
+        </div>
+        <div class="card">
+            <div class="show-title"><p><b>{{ show[0]['title'] }} DETAILS</b></p></div>
+            <table class="hide">
+                <thead>
+                <tr>
+                    <th>Season Title</th>
+                    <th>Episode Number</th>
+                    <th>Episode Title</th>
+                    <th>Overview</th>
+                    <th class="action-column">Edit/delete</th>
+                </tr>
+                </thead>
+                <tbody class="episodes_details">
+                </tbody>
+            </table>
+        </div>
+        <div class="card detailed-view">
+            <div class="row">
+                <div class="col col-third">
+                {% if show[0]['video'] %}
+                    <object data="{{ show[0]['video'] }}" width="560" height="315"></object>
+                {% else %}
+                    <h3>No video available</h3>
+                {% endif %}
+                </div>
+                <div class="col col-third">
+                    <h2>{{ show[0]['title'] }}</h2>
+                    <p class="small grayed">{{ show[0]['runtime'] }} <span class="separator">|</span> {{ show[0]['genre'] }} <span
+                            class="separator">|</span> {{ show[0]['year'] }}</p>
+                    <p><b>Overview: </b>{{ show[0]['overview'] }}</p>
 
-    <div class="card detailed-view">
-        <div class="row">
-            <div class="col col-third">
-            {% if show[0]['video'] %}
-                <object data="{{ show[0]['video'] }}" width="560" height="315"></object>
-            {% else %}
-                <h3>No video available</h3>
-            {% endif %}
-            </div>
-            <div class="col col-third">
-                <h2>{{ show[0]['title'] }}</h2>
-                <p class="small grayed">{{ show[0]['runtime'] }} <span class="separator">|</span> {{ show[0]['genre'] }} <span
-                        class="separator">|</span> {{ show[0]['year'] }}</p>
-                <p><b>Overview: </b>{{ show[0]['overview'] }}</p>
+                    <div>
+                        <p><b>Rating: </b>{{ show[0]['rating'] }}</p>
+                        <p><b>Stars: </b> {{ show[0]['actors'] }}</p>
+                    </div>
 
-                <div>
-                    <p><b>Rating: </b>{{ show[0]['rating'] }}</p>
-                    <p><b>Stars: </b> {{ show[0]['actors'] }}</p>
                 </div>
 
-            </div>
+                <div class="col col-third"><h2>Seasons</h2>
+                <br>
+                    <ul>
+                        {% for season in seasons %}
+                        <li>
+                            <h4 id="{{ season.id }}">{{ season.title }}</h4>
 
-            <div class="col col-third"><h2>Seasons</h2>
-            <br>
-                <ul>
-                    {% for season in seasons %}
-                    <li>
-                        <h4>{{ season.title }}</h4>
+                            <div class="hide">
+                                <p><b>Overview: </b>{{ season.overview }}</p>
+                            </div>
 
-                        <div class="hide">
-                            <p>{{ season.overview }}</p>
-                            <ol>
-                                {% for episode in season.episodes.split('@@') %}
-                                    <li><p><em>{{ episode }}</em></p></li>
-                                {% endfor %}
-                            </ol>
-                        </div>
-
-                    </li>
-                    {% endfor %}
-                </ul>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
-
+        <div class="hide">
+            <div class="card">
+                <p>Edit a TV show's episode:</p>
+                <form action="#" method="post">
+                    <p class="form-element">
+                        <label class="form-element-label" for="form-example-show">Show:</label>
+                        <select name="show" id="form-example-show">
+                            <option value="">Game of Thrones (2011)</option>
+                            <option value="">Lost (2004)</option>
+                            <option value="">South Park (1997)</option>
+                            <option value="">How I met your mother (2005)</option>
+                            <option value="">Legion (2017)</option>
+                        </select>
+                    </p>
+                    <p class="form-element">
+                        <label class="form-element-label" for="form-example-season">Season:</label>
+                        <input type="number" name="season" id="form-example-season" value="" min="1" max="30">
+                    </p>
+                    <p class="form-element">
+                        <label class="form-element-label" for="form-example-episode">Episode:</label>
+                        <input type="number" name="episode" id="form-example-episode" value="" min="1" max="100">
+                    </p>
+                    <p class="form-element">
+                        <label class="form-element-label" for="form-example-title">Title:</label>
+                        <input type="text" name="name" id="form-example-title" value="" placeholder="What the pencake?">
+                    </p>
+                    <p class="form-element">
+                        <label class="form-element-label" for="form-example-length">Length:</label>
+                        <input type="number" name="length" id="form-example-length" value="" min="1" max="999">
+                        <span>min.</span>
+                    </p>
+                    <p class="text-center">
+                        <button type="submit">Submit</button>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </section>
     <button type="button" id="bt_return"><a href="{{ url_for('index') }}">Go home</button>
     <br>
     <br>

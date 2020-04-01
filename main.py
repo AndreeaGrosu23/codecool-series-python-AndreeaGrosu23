@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, escape
+from flask import Flask, render_template, request, redirect, url_for, session, json, jsonify
 from data import queries
 
 import os
@@ -103,7 +103,10 @@ def add_fav():
     return redirect(url_for('index'))
 
 
-
+@app.route('/api/tv-show/<season_id>')
+def get_episodes(season_id):
+    episodes = queries.get_episodes(season_id)
+    return jsonify(episodes)
 
 # @app.route('/register', methods=['GET', 'POST'])
 # def register():

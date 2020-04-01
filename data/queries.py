@@ -116,11 +116,11 @@ def get_show_by_id(show_id):
 
 
 def get_seasons_by_show_id(show_id):
-    return data_manager.execute_select("""SELECT seasons.title, seasons.overview, string_agg(DISTINCT episodes.title, '@@') as episodes, string_agg(DISTINCT episodes.overview, '@@') as ep_overview
+    return data_manager.execute_select("""SELECT seasons.id, seasons.title, seasons.overview, string_agg(DISTINCT episodes.title, '@@') as episodes, string_agg(DISTINCT episodes.overview, '@@') as ep_overview
                                        FROM seasons 
                                        JOIN episodes 
                                        ON seasons.id = episodes.season_id 
-                                       GROUP BY seasons.title, seasons.overview, seasons.show_id 
+                                       GROUP BY seasons.id, seasons.title, seasons.overview, seasons.show_id 
                                        HAVING seasons.show_id = %(show_id)s;""",
                                        {'show_id' : show_id})
 
@@ -149,4 +149,14 @@ def select_fav(username):
                                        WHERE users.username = %(username)s;""",
                                        {'username': username})
 
+
+def get_episodes(season_id):
+    return data_manager.execute_select("""SELECT episodes.episode_number, episodes.title, episodes.overview, seasons.title AS seasons_title 
+                                        FROM episodes
+                                        JOIN seasons
+                                        ON episodes.season_id = seasons.id
+                                        WHERE seasons.id = %(season_id)s
+                                        ORDER BY 1;
+                                        """,
+                                       {'season_id': season_id})
 
