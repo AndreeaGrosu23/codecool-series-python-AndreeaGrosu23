@@ -86,12 +86,19 @@ def design():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    if 'logged_in' in session:
+        return redirect(url_for('index'))
+
     if request.method == "POST":
         input_password = request.form['password']
         db_pass = queries.login(request.form['username'])
-        # if data_manager.verify_password(input_password, db_pass['hashed_password']):
-        session['username'] = request.form['username']
-        return redirect(url_for('index'))
+        if data_manager.verify_password(input_password, db_pass[0]):
+            session['username'] = request.form['username']
+            return redirect(url_for('index'))
+        else:
+            flash('E-mail or Password do not match')
+    return redirect(url_for('index'))
+
 #     to write function for checking in the username exists and password is correct
 
 
