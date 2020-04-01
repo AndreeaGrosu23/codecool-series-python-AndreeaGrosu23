@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS actors;
 DROP TABLE IF EXISTS seasons;
 DROP TABLE IF EXISTS shows;
 DROP TABLE IF EXISTS users;
-
+DROP TABLE IF EXISTS favorites;
 
 CREATE TABLE shows (
     id       INTEGER PRIMARY KEY NOT NULL,
@@ -69,10 +69,15 @@ CREATE TABLE episodes (
 
 
 CREATE TABLE users (
-    id INTEGER PRIMARY KEY NOT NULL,
+    id SERIAL PRIMARY KEY NOT NULL,
     username TEXT,
     user_email TEXT,
-    hashed_password TEXT,
+    hashed_password TEXT
+);
+
+
+CREATE TABLE favorites (
+    user_id INTEGER,
     show_id INTEGER
 );
 
@@ -99,5 +104,8 @@ ALTER TABLE ONLY show_genres
 ALTER TABLE ONLY show_genres
     ADD CONSTRAINT fk_show_genres_show_id FOREIGN KEY (show_id) REFERENCES shows(id);
 
-ALTER TABLE ONLY users
-    ADD CONSTRAINT fk_users_show_id FOREIGN KEY (show_id) REFERENCES shows(id);
+ALTER TABLE ONLY favorites
+    ADD CONSTRAINT fk_favorites_show_id FOREIGN KEY (show_id) REFERENCES shows(id);
+
+ALTER TABLE ONLY favorites
+    ADD CONSTRAINT fk_favorites_user_id FOREIGN KEY (user_id) REFERENCES users(id);

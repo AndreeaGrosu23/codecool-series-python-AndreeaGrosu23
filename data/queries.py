@@ -136,18 +136,20 @@ def get_actors():
 
 
 def add_fav_to_users(data):
-    return data_manager.execute_manipulation("""INSERT INTO users 
-                                           VALUES (%(username)s, %(show_id)s);""",
-                                           {'username': data['username'],
+    return data_manager.execute_manipulation("""INSERT INTO favorites 
+                                           VALUES (%(user_id)s, %(show_id)s);""",
+                                           {'user_id': data['user_id'],
                                            'show_id': data['show_id']})
 
 
-def select_fav(username):
-    return data_manager.execute_select("""SELECT DISTINCT shows.title FROM users 
+def select_fav(user_id):
+    return data_manager.execute_select("""SELECT DISTINCT shows.title FROM favorites 
                                        JOIN shows 
-                                       ON shows.id = users.show_id 
-                                       WHERE users.username = %(username)s;""",
-                                       {'username': username})
+                                       ON shows.id = favorites.show_id 
+                                       JOIN users
+                                       ON favorites.user_id = users.id
+                                       WHERE users.id = %(user_id)s;""",
+                                       {'user_id': user_id})
 
 
 def get_episodes(season_id):
@@ -160,3 +162,21 @@ def get_episodes(season_id):
                                         """,
                                        {'season_id': season_id})
 
+
+def add_user(data):
+    return data_manager.execute_manipulation("""INSERT INTO users (username, user_email, hashed_password)
+                                            VALUES (%(username)s, %(user_email)s, %(hashed_pass)s);""",
+                                             {'username': data['username'],
+                                              'user_email': data['user_email'],
+                                              'hashed_pass': data['hashed_pass']})
+
+def login(username):
+    return data_manager.execute_dml_statement("""SELECT hashed_password FROM users
+                                                WHERE username = %(username)s;""",
+                                              {'username': username})
+
+
+def user_id_by_username(username):
+    return data_manager.execute_dml_statement("""SELECT id FROM users
+                                        WHERE username = %(username)s;""",
+                                       {'username': username})

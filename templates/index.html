@@ -64,7 +64,7 @@
                     <td>{{ show['trailer'] }}</td>
                     <td>{{ show['homepage'] }}</td>
                     {% if session %}
-                        <td><button type="button" id="add-favorite" value="add-favorite"><a href="{{ url_for('add_fav', show_id=show['id'], username=session['username']) }}">Add to Favorits</a></button> </td>
+                        <td><button type="button" id="add-favorite" value="add-favorite"><a href="{{ url_for('add_fav', show_id=show['id'], username=session['username']) }}">Add to Favorites</a></button> </td>
                     {% endif %}
                 </tr>
 

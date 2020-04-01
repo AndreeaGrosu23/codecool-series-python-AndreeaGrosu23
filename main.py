@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session, json, jsonify
-from data import queries
+from data import queries, data_manager
 
 import os
 
@@ -17,10 +17,11 @@ def index():
     shows = queries.get_shows(data)
     if session:
         username = session['username']
-        faves = queries.select_fav(username)
+
         shows = queries.get_shows(data)
         header = request.args.get(key = 'header')
         order = request.args.get(key = 'order')
+
         if header == "title" and order == "asc" :
             shows = queries.sorted_by_title_ASC(data)
         elif header == "title" and order == "desc" :
@@ -29,17 +30,15 @@ def index():
             shows = queries.sorted_by_rating_ASC(data)
         elif header == "rating" and order == "desc" :
             shows = queries.sorted_by_rating_DESC(data)
-        return render_template('index.html', shows=shows, page_id=page_id, username=username, faves=faves)
+
+        user_id = queries.user_id_by_username(username)
+        faves = queries.select_fav(user_id)
+        if faves:
+            return render_template('index.html', shows=shows, page_id=page_id, username=username, faves=faves)
+
+        return render_template('index.html', shows=shows, page_id=page_id, username=username)
 
     return render_template('index.html', shows=shows, page_id=page_id)
-
-    # if session:
-    #     shows = queries.sorted_by_rating_DESC(data)
-    #     username = session['username']
-    #     faves = queries.select_fav(username)
-    #     return render_template('index.html', shows=shows, page_id=page_id, username=username, faves=faves)
-
-
 
 
 @app.route('/get-shows')
@@ -88,6 +87,9 @@ def design():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == "POST":
+        input_password = request.form['password']
+        db_pass = queries.login(request.form['username'])
+        # if data_manager.verify_password(input_password, db_pass['hashed_password']):
         session['username'] = request.form['username']
         return redirect(url_for('index'))
 #     to write function for checking in the username exists and password is correct
@@ -95,9 +97,10 @@ def login():
 
 @app.route('/add-favorite')
 def add_fav():
+    user_id = queries.user_id_by_username(request.args.get(key='username'))
     data = {
         'show_id': request.args.get(key='show_id'),
-        'username': request.args.get(key='username'),
+        'user_id': user_id
     }
     queries.add_fav_to_users(data)
     return redirect(url_for('index'))
@@ -108,11 +111,17 @@ def get_episodes(season_id):
     episodes = queries.get_episodes(season_id)
     return jsonify(episodes)
 
-# @app.route('/register', methods=['GET', 'POST'])
-# def register():
-#     to write function to write in database
-#     to generate db table with users
-#     to write hash password
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        if request.form['password1'] == request.form['password2']:
+            form_data = {
+                'username': request.form['username'],
+                'hashed_pass': data_manager.hash_password(request.form['password1']),
+                'user_email': request.form['email-address']
+            }
+            queries.add_user(form_data)
+            return redirect(url_for('index'))
 
 
 @app.route('/logout')
