@@ -180,3 +180,17 @@ def user_id_by_username(username):
     return data_manager.execute_dml_statement("""SELECT id FROM users
                                         WHERE username = %(username)s;""",
                                        {'username': username})
+
+def add_comment(data):
+    return data_manager.execute_manipulation("""INSERT INTO comments 
+                                                VALUES (%(user_id)s, %(show_id)s, %(comment_text)s);""",
+                                             {'user_id': data['user_id'],
+                                              'show_id': data['show_id'],
+                                              'comment_text': data['comment_text']})
+
+
+def show_comment():
+    return data_manager.execute_select("""SELECT users.username, c.comment_text
+                                        FROM users
+                                        JOIN comments c on users.id = c.user_id;
+                                        """)

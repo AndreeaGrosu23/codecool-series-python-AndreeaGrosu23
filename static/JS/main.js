@@ -80,6 +80,35 @@ function createEpisodesTable(data) {
 };
 
 
+//Add favorite to DB
+// let buttonAdd = document.querySelector('#add-favorite-show');
+// console.log(buttonAdd)
+//
+// buttonAdd.addEventListener('click', addToDB);
+//
+//
+// function addToDB(e) {
+//     e.style.color = 'red';
+//     let showId = e.toElement.id;
+//     let data = {showId};
+//     console.log(data)
+//     const option = {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify(data)
+//     };
+//     fetch('http://127.0.0.1:5000/api/add-favorite', option)
+//     .then((response) => {
+//         return response.json();
+//     })
+//     .then((data) => {
+//         console.log(data)
+//     });
+// }
+
+
 // Show favorites list when logged in
 let faves = document.querySelector('#faves');
 faves.addEventListener('click', openFaves);

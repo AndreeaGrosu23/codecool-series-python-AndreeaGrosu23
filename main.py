@@ -69,7 +69,8 @@ def get_shows_per_page(page_id):
 def show_details(show_id):
     show = queries.get_show_by_id(show_id)
     seasons = queries.get_seasons_by_show_id(show_id)
-    return render_template('show_details.html', show=show, seasons=seasons)
+    comments = queries.show_comment()
+    return render_template('show_details.html', show=show, seasons=seasons, comments=comments)
 
 
 @app.route('/top-20-actors')
@@ -78,9 +79,67 @@ def top_20():
     return render_template('top20actors.html', actors=actors)
 
 
+@app.route('/add-favorite')
+def add_fav():
+    user_id = session['user_id']
+    show_id = request.args.get(key='show_id')
+    data = {
+        'show_id': show_id,
+        'user_id': user_id
+    }
+    queries.add_fav_to_users(data)
+    return redirect(url_for('index'))
+
+
 @app.route('/design')
 def design():
     return render_template('design.html')
+
+
+# @app.route('/api/add-favorite', methods=['POST'])
+# def add_fav():
+#     user_id = session['user_id']
+#     show_id = request.json['show_id']
+#     data = {
+#         'show_id': show_id,
+#         'user_id': user_id
+#     }
+#     queries.add_fav_to_users(data)
+#     return redirect(url_for('index'))
+
+
+@app.route('/api/tv-show/<season_id>')
+def get_episodes(season_id):
+    episodes = queries.get_episodes(season_id)
+    return jsonify(episodes)
+
+
+@app.route('/add-comment/<show_id>', methods=['GET', 'POST'])
+def write_comment(show_id):
+    if request.method=='POST':
+        user_id = session['user_id']
+        comment_text = request.form['comment']
+        data = {
+            'show_id': show_id,
+            'user_id': user_id,
+            'comment_text': comment_text
+        }
+        queries.add_comment(data)
+    return redirect(url_for('show_details', show_id=show_id))
+
+
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        if request.form['password1'] == request.form['password2']:
+            form_data = {
+                'username': request.form['username'],
+                'hashed_pass': data_manager.hash_password(request.form['password1']),
+                'user_email': request.form['email-address']
+            }
+            queries.add_user(form_data)
+            return redirect(url_for('index'))
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -100,37 +159,6 @@ def login():
         else:
             flash('Password does not match')
     return redirect(url_for('index'))
-
-#     to write function for checking if the username exists
-
-
-@app.route('/add-favorite')
-def add_fav():
-    user_id = queries.user_id_by_username(request.args.get(key='username'))
-    data = {
-        'show_id': request.args.get(key='show_id'),
-        'user_id': user_id
-    }
-    queries.add_fav_to_users(data)
-    return redirect(url_for('index'))
-
-
-@app.route('/api/tv-show/<season_id>')
-def get_episodes(season_id):
-    episodes = queries.get_episodes(season_id)
-    return jsonify(episodes)
-
-@app.route('/register', methods=['GET', 'POST'])
-def register():
-    if request.method == 'POST':
-        if request.form['password1'] == request.form['password2']:
-            form_data = {
-                'username': request.form['username'],
-                'hashed_pass': data_manager.hash_password(request.form['password1']),
-                'user_email': request.form['email-address']
-            }
-            queries.add_user(form_data)
-            return redirect(url_for('index'))
 
 
 @app.route('/logout')

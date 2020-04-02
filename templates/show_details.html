@@ -34,6 +34,23 @@
                 </tbody>
             </table>
         </div>
+        <div class="card">
+            <p>Comments</p>
+            {% for comment in comments %}
+                <p>{{ comment.username }} : {{ comment.comment_text }}</p>
+            {% endfor %}
+        </div>
+
+        {% if session %}
+        <div class="card">
+                <form action="{{ url_for('write_comment', show_id=show[0]['id']) }}" method="POST">
+                   <label class="form-element-label" for="form-example-episode">Comment:</label>
+                   <input type="text" name="comment" id="comment">
+                   <button type="submit" value="submit"></button>
+                </form>
+        </div>
+        {% endif %}
+
         <div class="card detailed-view">
             <div class="row">
                 <div class="col col-third">

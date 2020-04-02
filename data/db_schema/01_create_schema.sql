@@ -7,6 +7,7 @@ DROP TABLE IF EXISTS seasons;
 DROP TABLE IF EXISTS shows;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS favorites;
+DROP TABLE IF EXISTS comments;
 
 CREATE TABLE shows (
     id       INTEGER PRIMARY KEY NOT NULL,
@@ -82,6 +83,13 @@ CREATE TABLE favorites (
 );
 
 
+CREATE TABLE comments (
+    user_id INTEGER,
+    show_id INTEGER,
+    comment_text TEXT
+);
+
+
 ALTER TABLE ONLY seasons
     ADD CONSTRAINT fk_seasons_show_id FOREIGN KEY (show_id) REFERENCES shows(id);
 
@@ -109,3 +117,9 @@ ALTER TABLE ONLY favorites
 
 ALTER TABLE ONLY favorites
     ADD CONSTRAINT fk_favorites_user_id FOREIGN KEY (user_id) REFERENCES users(id);
+
+ALTER TABLE ONLY comments
+    ADD CONSTRAINT fk_comments_user_id FOREIGN KEY (user_id) REFERENCES users(id);
+
+ALTER TABLE ONLY comments
+    ADD CONSTRAINT fk_comments_show_id FOREIGN KEY (show_id) REFERENCES shows(id);
