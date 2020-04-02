@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, json, jsonify
+from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
 from data import queries, data_manager
 
 import os
@@ -16,8 +16,7 @@ def index():
     }
     shows = queries.get_shows(data)
     if session:
-        username = session['username']
-
+        user_id = session['user_id']
         shows = queries.get_shows(data)
         header = request.args.get(key = 'header')
         order = request.args.get(key = 'order')
@@ -31,12 +30,12 @@ def index():
         elif header == "rating" and order == "desc" :
             shows = queries.sorted_by_rating_DESC(data)
 
-        user_id = queries.user_id_by_username(username)
+
         faves = queries.select_fav(user_id)
         if faves:
-            return render_template('index.html', shows=shows, page_id=page_id, username=username, faves=faves)
+            return render_template('index.html', shows=shows, page_id=page_id, faves=faves)
 
-        return render_template('index.html', shows=shows, page_id=page_id, username=username)
+        return render_template('index.html', shows=shows, page_id=page_id)
 
     return render_template('index.html', shows=shows, page_id=page_id)
 
@@ -93,13 +92,16 @@ def login():
         input_password = request.form['password']
         db_pass = queries.login(request.form['username'])
         if data_manager.verify_password(input_password, db_pass[0]):
+            username = request.form['username']
+            user_id = queries.user_id_by_username(username)
+            session['user_id'] = user_id
             session['username'] = request.form['username']
             return redirect(url_for('index'))
         else:
-            flash('E-mail or Password do not match')
+            flash('Password does not match')
     return redirect(url_for('index'))
 
-#     to write function for checking in the username exists and password is correct
+#     to write function for checking if the username exists
 
 
 @app.route('/add-favorite')
@@ -134,6 +136,7 @@ def register():
 @app.route('/logout')
 def logout():
     session.pop('username', None)
+    session.pop('user_id', None)
     return redirect(url_for('index'))
 
 
